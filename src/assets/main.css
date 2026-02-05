@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Kablammo&display=swap');
-
 body{
     @apply max-w-6xl mx-auto p-4 bg-linear-to-r from-[#f0f4ff] to-[#ffffff];
        
