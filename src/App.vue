@@ -2,7 +2,7 @@
 
 </script>
 
-<template>
+<template class="overflow-hidden">
   <main>
     <header class="bg-linear-to-r from-[#b3daff] to-[#edf3ff] w-full h-20 items-center flex justify-start px-4">
       <img class="w-20 h-20" alt="Japanese logo" src="./assets/img/Japanese_icon_for_user_box.png" />
@@ -18,7 +18,7 @@
     </header>
   </main>
 
-  <div class="min-h-screen  flex flex-col items-center justify-center border-2 bg-white w-full ">
+  <div class="min-h-screen  flex flex-col items-center justify-center border-2 bg-white w-full overflow-auto ">
     
     <h1 class="text-3xl font-bold mb-4 ">Noticias <span class="text-[#b3daff]">(ニュース)</span> Japón <span class="text-[#b3daff]">(日本語)</span></h1>
     <ul>
