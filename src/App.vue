@@ -17,7 +17,7 @@
   </main>
 
 <div class="min-h-screen flex items-center justify-center">
-  ref;
+  
     </div>
 
   <div class="bg-gradient-to-r from-[#b3daff] to-[#edf3ff] w-full h-10 px-4 fixed bottom-0 left-50 max-w-6xl mx-auto">
