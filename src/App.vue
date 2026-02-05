@@ -32,5 +32,7 @@
 <script setup lang="ts">
 // composition API here, no export default needed
 import { ref } from 'vue'
-const count = ref(0)
+const count = ref(0) 
+// Fuente de los datos: https://newsapi.org/s/japan-news-api
+const apiKey = import.meta.env.VITE_MI_API_KEY;
 </script>
