@@ -1,22 +1,5 @@
 <script setup lang="ts">
-mounted() {
-  
-  // Traemos la api key
-  const mi = import.meta.env.VITE_MI_API_KEY; 
-  
-// La URL de la API (el sitio que da la info)
-  const urlApi = 'https://newsapi.org/v2/everything?q=tesla&from=2026-01-05&sortBy=publishedAt&apiKey=VITE_MI_API_KEY'; 
 
-  axios.get(urlApi, {
-    headers: {
-      'Authorization': `Bearer ${miLlave}`
-    }
-  })
-  .then(response => {
-    this.info = response.data;
-  })
-  .catch(error => console.error(error));
-}
 </script>
 
 <template>
@@ -36,7 +19,12 @@ mounted() {
   </main>
 
 <div class="min-h-screen flex items-center justify-center">
-  
+  <h1>Noticias Japonesas</h1>
+  <ul>
+    <li v-for="(noticia, index) in info" :key="index">
+        {{ noticia.title }}
+      </li>
+  </ul>
     </div>
 
   <div class="bg-linear-to-r from-[#b3daff] to-[#edf3ff] w-full h-10 px-4 fixed bottom-0  max-w-6xl mx-auto">
@@ -49,9 +37,21 @@ mounted() {
 </template>
 
 <script setup lang="ts">
-// composition API here, no export default needed
-import { ref } from 'vue'
-const count = ref(0) 
-// Fuente de los datos: https://newsapi.org/s/japan-news-api
-const apiKey = import.meta.env.VITE_MI_API_KEY;
+import { ref, onMounted } from 'vue';
+import { getJapanNews } from '@/services/news.js'; // Asegúrate que la ruta sea correcta
+
+// 1. Definimos 'info' como una referencia reactiva
+const info = ref([]);
+
+// 2. Usamos el hook onMounted (equivalente al mounted de Vue 2)
+onMounted(async () => {
+  try {
+    const datos = await getJapanNews();
+    if (datos) {
+      info.value = datos; // En script setup usamos .value para asignar
+    }
+  } catch (error) {
+    console.error("Error al cargar noticias:", error);
+  }
+});
 </script>
