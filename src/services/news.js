@@ -13,7 +13,7 @@ export const getJapanNews = async () => {
     const response = await apiClient.get('/top-headlines', {
       params: {
         'country': 'jp',
-        'lang': 'jap'
+        'lang': 'ja'
       }
     });
     // GNews devuelve los datos en un objeto 'articles'
