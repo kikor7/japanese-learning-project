@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
   <main>
     <header class="bg-gradient-to-r from-[#b3daff] to-[#edf3ff] w-full h-20 items-center flex justify-start px-4">
@@ -16,15 +14,15 @@
     </header>
   </main>
 
-<div class="min-h-screen flex items-center justify-center">
-  ref;
-    </div>
+  <div class="min-h-screen flex items-center justify-center">
+    <p class="text-white">Mi clave es: {{ apiKey }}</p>
+  </div>
 
   <div class="bg-gradient-to-r from-[#b3daff] to-[#edf3ff] w-full h-10 px-4 fixed bottom-0 left-50 max-w-6xl mx-auto">
     <footer>
       <div class="flex items-end justify-end">
-      <p class="text-white font-semibold">© 2026 Aprende Japonés. Todos los derechos reservados.</p>
-    </div>
+        <p class="text-white font-semibold">© 2026 Aprende Japonés. Todos los derechos reservados.</p>
+      </div>
     </footer>
   </div>
 </template>
@@ -33,4 +31,5 @@
 // composition API here, no export default needed
 import { ref } from 'vue'
 const count = ref(0)
+const apiKey = import.meta.env.VITE_MI_API_KEY; 
 </script>
