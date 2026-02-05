@@ -9,3 +9,13 @@ export default {
   },
   plugins: [],
 }
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        // Ahora "gaming" será el nombre de tu clase en Tailwind
+        'gaming': ['Kablammo', 'cursive'], 
+      },
+    },
+  },
+}
