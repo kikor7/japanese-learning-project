@@ -18,20 +18,21 @@
     </header>
   </main>
 
-<div class="min-h-screen flex items-center justify-center">
-  <h1>Noticias Japonesas</h1>
-  <ul>
-    <li v-for="(noticia, index) in info" :key="index">
+  <div class="min-h-screen  flex flex-col items-center justify-center border-2 bg-white w-full ">
+    
+    <h1 class="text-3xl font-bold mb-4 ">Noticias <span class="text-[#b3daff]">(ニュース)</span> Japón <span class="text-[#b3daff]">(日本語)</span></h1>
+    <ul>
+      <li v-for="(noticia, index) in info" :key="index">
         {{ noticia.title }}
       </li>
-  </ul>
-    </div>
+    </ul>
+  </div>
 
   <div class="bg-linear-to-r from-[#b3daff] to-[#edf3ff] w-full h-10 px-4 fixed bottom-0  max-w-6xl mx-auto">
     <footer>
       <div class="flex items-end justify-end">
-      <p class="text-white font-semibold">© 2026 Aprende Japonés. Todos los derechos reservados.</p>
-    </div>
+        <p class="text-white font-semibold">© 2026 Aprende Japonés. Todos los derechos reservados.</p>
+      </div>
     </footer>
   </div>
 </template>
@@ -41,7 +42,7 @@ import { ref, onMounted } from 'vue';
 import { getJapanNews } from '@/services/news.js'; // Asegúrate que la ruta sea correcta
 
 // 1. Definimos 'info' como una referencia reactiva
-const info = ref([]);
+const info = ref<any[]>([]);
 
 // 2. Usamos el hook onMounted (equivalente al mounted de Vue 2)
 onMounted(async () => {
