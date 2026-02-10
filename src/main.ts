@@ -3,7 +3,8 @@ import { createPinia } from 'pinia'
 import './assets/main.css'
 import App from './App.vue'
 import router from './router'
-import BotonBlanco from './components/botonBlanco.vue'
+import "bootstrap-icons/font/bootstrap-icons.css"
+
 
 const app = createApp(App)
 
