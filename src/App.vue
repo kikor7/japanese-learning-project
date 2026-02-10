@@ -7,7 +7,7 @@ import footerPagina from '@/components/footerPagina.vue';
 
 const route = useRoute()
 
-const tipoHeader = computed(() =>
+const selectorTipo = computed(() =>
   route.name === 'login' ? 'login' : 'principal'
 )
 
@@ -18,9 +18,12 @@ const tipoHeader = computed(() =>
 
 <template>
   <petalosBackground />
- <headerPagina tipo="principal" />
+ <headerPagina :tipo="selectorTipo"/>
+<main class="bg-white">
+
 
   <router-view />
+</main>
 
   <footerPagina />
 </template>
