@@ -1,43 +1,35 @@
 <template>
-  <div class="container mx-auto p-4 mt-8">
-    <h1 class="text-4xl font-bold text-center">Registro</h1>
-    <form class="flex flex-col gap-4" @submit.prevent="handleRegister">
-      <label class="flex flex-col gap-2" for="username">
-        <span class="text-lg font-bold">Nombre de usuario</span>
-        <input
-          class="w-full px-4 py-2 rounded-md border-2 border-gray-300"
-          type="text"
-          id="username"
-          v-model="username"
-        />
-      </label>
-      <label class="flex flex-col gap-2" for="email">
-        <span class="text-lg font-bold">Correo electrónico</span>
-        <input
-          class="w-full px-4 py-2 rounded-md border-2 border-gray-300"
-          type="email"
-          id="email"
-          v-model="email"
-        />
-      </label>
-      <label class="flex flex-col gap-2" for="password">
-        <span class="text-lg font-bold">Contraseña</span>
-        <input
-          class="w-full px-4 py-2 rounded-md border-2 border-gray-300"
-          type="password"
-          id="password"
-          v-model="password"
-        />
-      </label>
-      <button class="w-full px-4 py-2 rounded-md bg-blue-500 text-white font-bold" type="submit">Registrarse</button>
-      <p v-if="error" class="text-red-600 text-lg font-bold text-center">{{ error }}</p>
-    </form>
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <h1 class="text-center text-gray-800 text-2xl font-semibold mb-8">Registro</h1>
+      <form class="" @submit.prevent="handleRegister">
+        <div class="mb-4">
+          <label for="username" class="block mb-2 text-gray-600 font-medium">Nombre de usuario</label>
+          <input id="username" v-model="username" type="text"
+            class="w-full p-3 border border-gray-200 rounded text-base focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block mb-2 text-gray-600 font-medium">Correo electrónico</label>
+          <input id="email" v-model="email" type="email"
+            class="w-full p-3 border border-gray-200 rounded text-base focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block mb-2 text-gray-600 font-medium">Contraseña</label>
+          <input id="password" v-model="password" type="password"
+            class="w-full p-3 border border-gray-200 rounded text-base focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+           <BotonMoradoLoginRegister>Registrarse</BotonMoradoLoginRegister>
+          </div>
+    
+        <p v-if="error" class="text-red-600 text-center mt-4">{{ error }}</p>
+      </form>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import BotonMoradoLoginRegister from '@/components/botonMoradoLoginRegister.vue';
 
 const username = ref('')
 const email = ref('')
@@ -72,4 +64,5 @@ const handleRegister = async () => {
     error.value = 'Error al registrarse. Revisa la consola o la red.'
   }
 }
+
 </script>
