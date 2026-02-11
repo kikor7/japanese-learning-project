@@ -1,36 +1,33 @@
 <template>
-    <div class="login-container">
-        <div class="login-box">
-            <h1>Login</h1>
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-center text-gray-800 text-2xl font-semibold mb-8">Login</h1>
             <form @submit.prevent="handleLogin">
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input
-                        id="email"
-                        v-model="form.email"
-                        type="email"
-                        required
-                    />
+                <div class="mb-4">
+                    <label for="email" class="block mb-2 text-gray-600 font-medium">Email:</label>
+                    <input id="email" v-model="form.email" type="email" required
+                        class="w-full p-3 border border-gray-200 rounded text-base focus:outline-none focus:ring-2 focus:ring-indigo-300" />
                 </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input
-                        id="password"
-                        v-model="form.password"
-                        type="password"
-                        required
-                    />
+                <div class="mb-4">
+                    <label for="password" class="block mb-2 text-gray-600 font-medium">Password:</label>
+                    <input id="password" v-model="form.password" type="password" required
+                        class="w-full p-3 border border-gray-200 rounded text-base focus:outline-none focus:ring-2 focus:ring-indigo-300" />
                 </div>
-                <button type="submit">Login</button>
+                <BotonMoradoLoginRegister>iniciar sesion</BotonMoradoLoginRegister>
             </form>
-            <p v-if="error" class="error">{{ error }}</p>
+            <p v-if="error" class="text-red-600 text-center mt-4">{{ error }}</p>
         </div>
     </div>
 </template>
 
 <script>
+import BotonMoradoLoginRegister from '@/components/botonMoradoLoginRegister.vue';
+
 export default {
     name: 'Login',
+    components: {
+        BotonMoradoLoginRegister
+    },
     data() {
         return {
             form: {
@@ -49,69 +46,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.login-box {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 2rem;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #555;
-    font-weight: 500;
-}
-
-input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-button {
-    width: 100%;
-    padding: 0.75rem;
-    background: #667eea;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 1rem;
-}
-
-button:hover {
-    background: #764ba2;
-}
-
-.error {
-    color: #e74c3c;
-    text-align: center;
-    margin-top: 1rem;
-}
-</style>
