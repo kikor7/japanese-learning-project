@@ -54,6 +54,7 @@ export const getJapanNews = async (opts = {}) => {
       params: {
         country: 'jp',
         lang: 'ja',
+        apikey: import.meta.env.VITE_GNEWS_KEY,
       },
     })
     const articles = response.data.articles
