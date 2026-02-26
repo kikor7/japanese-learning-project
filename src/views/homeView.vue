@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { getJapanNews } from '@/services/news.js';
-import BotonBlanco from './components/botonBlanco.vue';
-import headerPagina from './components/headerPagina.vue';
-import footerPagina from './components/footerPagina.vue';
+import BotonBlanco from '../components/botonBlanco.vue';
+import headerPagina from '../components/headerPagina.vue';
+import footerPagina from '../components/footerPagina.vue';
 
 const info = ref<any[]>([]);
 const loading = ref(true);
@@ -37,7 +37,7 @@ onMounted(async () => {
 
 </script>
 <template>
-   <div v-if="loading" class="flex items-center justify-center w-full  h-120 font-bold text-2xl ">Cargando noticias...
+  <div v-if="loading" class="flex items-center justify-center w-full  h-120 font-bold text-2xl ">Cargando noticias...
   </div>
   <section v-else>
     <div
