@@ -17,9 +17,9 @@
           <label for="password" class="block mb-2 text-gray-600 font-medium">Contraseña</label>
           <input id="password" v-model="password" type="password"
             class="w-full p-3 border border-gray-200 rounded text-base focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-          <BotonMoradoLoginRegister>Registrarse</BotonMoradoLoginRegister>
-        </div>
-
+           <BotonMoradoLoginRegister>Registrarse</BotonMoradoLoginRegister>
+          </div>
+    
         <p v-if="error" class="text-red-600 text-center mt-4">{{ error }}</p>
       </form>
     </div>
@@ -34,7 +34,7 @@ import BotonMoradoLoginRegister from '@/components/botonMoradoLoginRegister.vue'
 const username = ref('')
 const email = ref('')
 const password = ref('')
-const errorMessage = ref<string | null>(null);
+const error = ref<string | null>(null);
 
 const router = useRouter()
 
