@@ -42,6 +42,7 @@ export function clearNewsCache() {
 
 // getJapanNews ahora acepta una opción TTL en milisegundos (por defecto 10 minutos)
 export const getJapanNews = async (opts = {}) => {
+  console.log("¿La clave existe en Vercel?:", !!import.meta.env.VITE_GNEWS_KEY);
   const ttl = typeof opts.ttl === 'number' ? opts.ttl : 10 * 60 * 1000
 
   const cached = getCache()
