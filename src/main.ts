@@ -6,7 +6,7 @@ import router from './router'
 import "bootstrap-icons/font/bootstrap-icons.css"
 import Particles from "@tsparticles/vue3"
 import { loadSlim } from "@tsparticles/slim"
-
+import { injectSpeedInsights } from '@vercel/speed-insights';
 
 const app = createApp(App)
 
@@ -20,5 +20,6 @@ app.use(Particles, {
 })
 
 app.mount('#app')
+injectSpeedInsights();
 
 

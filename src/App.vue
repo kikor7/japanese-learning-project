@@ -5,6 +5,7 @@ import petalosBackground from '@/components/petalosBackground.vue';
 import headerPagina from '@/components/headerPagina.vue';
 import footerPagina from '@/components/footerPagina.vue';
 
+
 const route = useRoute()
 
 const selectorTipo = computed(() =>
