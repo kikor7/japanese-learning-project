@@ -1,11 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-body{
-    @apply max-w-6xl mx-auto p-4 bg-linear-to-r from-[#f0f4ff] to-[#ffffff];
-       
+body {
+  @apply max-w-6xl mx-auto p-4 bg-linear-to-r from-[#f0f4ff] to-[#ffffff];
 }
-button{
- 
-    @apply transition-all duration-300 
-               hover:-translate-y-1 hover:shadow-xl ;
+button {
+  @apply transition-all duration-300 
+               hover:-translate-y-1 hover:shadow-xl;
 }
