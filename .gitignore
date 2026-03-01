@@ -40,3 +40,5 @@ __screenshots__/
 
 #API key
 .env
+.vercel
+.env*.local
