@@ -1,15 +1,22 @@
 import axios from 'axios'
 
-// instancia para no repetir la URL base ni la API Key
+/**
+ * IMPORTANTE: Para que esto funcione, debes tener el archivo vercel.json en la raíz:
+ * {
+ * "rewrites": [{ "source": "/api/gnews/:path*", "destination": "https://gnews.io/api/v4/:path*" }]
+ * }
+ */
+
 const apiClient = axios.create({
-  baseURL: 'https://gnews.io/api/v4', // su documentación indica la URL base
+  // Reemplazamos la URL directa por la ruta del proxy de Vercel
+  // En desarrollo (localhost), esto fallará a menos que uses 'vercel dev'
+  baseURL: '/api/gnews', 
   params: {
     apikey: import.meta.env.VITE_GNEWS_KEY,
   },
 })
 
 const CACHE_KEY = 'gnews:japanNews'
-
 const now = () => new Date().getTime()
 
 function getCache() {
@@ -40,13 +47,12 @@ export function clearNewsCache() {
   }
 }
 
-// getJapanNews ahora acepta una opción TTL en milisegundos (por defecto 10 minutos)
 export const getJapanNews = async (opts = {}) => {
-  console.log("¿La clave existe en Vercel?:", !!import.meta.env.VITE_GNEWS_KEY);
   const ttl = typeof opts.ttl === 'number' ? opts.ttl : 10 * 60 * 1000
 
   const cached = getCache()
-  if (cached && now() - cached.ts < ttl) {
+  // Si hay cache y no ha expirado, la usamos
+  if (cached && (now() - cached.ts < ttl)) {
     return cached.data
   }
 
@@ -55,17 +61,21 @@ export const getJapanNews = async (opts = {}) => {
       params: {
         country: 'jp',
         lang: 'ja',
+        // La apikey ya va en la instancia, pero se asegura aquí
         apikey: import.meta.env.VITE_GNEWS_KEY,
       },
     })
+    
     const articles = response.data.articles
     setCache(articles)
     return articles
   } catch (error) {
-    console.error('Error cargando noticias:', error)
-    // si hay cache anterior pero la petición falla, devolverla como fallback (datos que ya estaban guardados en localStorage)
-    if (cached && cached.data) return cached.data
+    console.error('Error al obtener noticias:', error)
+    // Fallback: si la API falla (por CORS o límite), usamos lo que haya en cache aunque sea viejo
+    if (cached && cached.data) {
+      console.info('Sirviendo noticias antiguas desde cache debido a un error de red.');
+      return cached.data
+    }
     throw error
   }
 }
-
