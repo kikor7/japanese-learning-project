@@ -1,3 +1,3 @@
 Una aplicación web construida con Vue.js que permite a los usuarios ver noticias de la actualidad japonesa, acceder a videos seleccionados de youtube para aprender japones y jugar a un videojuego hecho con Phaser.js.
 
-Esta aplicación consume datos en tiempo real de la [API de GNews](https://gnews.io), si se agota el limite gratuito dará un informe de error detallandolo.
+Esta aplicación consume datos en tiempo real de la [API de GNews](https://gnews.io) usando como proxy a Vercel para evitar la politica de CORS, si se agota el limite gratuito dará un informe de error detallandolo.
