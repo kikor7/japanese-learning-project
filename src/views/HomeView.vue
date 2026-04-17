@@ -43,7 +43,7 @@ onMounted(async () => {
       
       <div class="p-8 text-center border-b border-gray-50">
         <h1 class="text-4xl font-extrabold text-gray-800">
-          Noticias!! <span class="text-blue-400">(ニュース)</span> 
+          Noticias <span class="text-blue-400">(ニュース)</span> 
           Japón <span class="text-blue-400">(日本語)</span>
         </h1>
         <p class="text-gray-400 mt-2 italic">Actualidad desde el país del sol naciente</p>
