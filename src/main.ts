@@ -19,6 +19,5 @@ app.use(Particles, {
 })
 
 app.mount('#app')
-injectSpeedInsights();
 
 
