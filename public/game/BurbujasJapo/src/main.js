@@ -1,4 +1,5 @@
 import { Start } from './scenes/Start.js';
+import Game from './scenes/GameBubbles.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -10,7 +11,8 @@ const config = {
     backgroundColor: '#000000',
     pixelArt: false,
     scene: [
-        Start
+        Start,
+        Game
     ],
     scale: {
         mode: Phaser.Scale.FIT,

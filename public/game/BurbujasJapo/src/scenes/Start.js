@@ -1,3 +1,4 @@
+import Game from './GameBubbles.js';
 export class Start extends Phaser.Scene {
 
     constructor() {
@@ -46,7 +47,7 @@ export class Start extends Phaser.Scene {
 
     // Evento para empezar el juego
     botonJugar.on('pointerdown', () => {
-        // this.scene.start('GameBubbles');
+        this.scene.start('GameBubbles');
         console.log("Iniciando aventura...");
     });
     // Dentro del método create() de tu escena Start.js
