@@ -8,7 +8,7 @@ const routes = [
   { path: '/', name: 'principal', component: HomeView },
   { path: '/login', name: 'login', component: LoginView },
   { path: '/register', name: 'register', component: registerView },
-  { path: '/juego', name: 'game', component: GameView },
+  { path: '/game', name: 'game', component: GameView },
 ]
 
 const router = createRouter({

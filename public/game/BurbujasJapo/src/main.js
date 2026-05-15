@@ -16,6 +16,12 @@ const config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
+    physics: {
+    default: 'arcade',
+    arcade: {
+        debug: true //Al activar el debug, verás cajas de colores alrededor de tus burbujas y del mapache. Sabrás exactamente dónde están sus límites, por qué chocan o por qué se salen de la pantalla. Ya no hay "adivinanza".
+    }
+}
 }
 
 new Phaser.Game(config);

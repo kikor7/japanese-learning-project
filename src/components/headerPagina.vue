@@ -1,83 +1,60 @@
-<script setup>
-import BotonBlanco from './botonBlanco.vue';
-
-const props = defineProps({
-  tipo: {
-    type: String,
-    default: 'principal'
-  }
-});
-</script>
-
 <template>
   <header
-    class="bg-linear-to-r from-[#b3daff] to-[#edf3ff] w-full h-20 flex items-center px-4 rounded-2xl">
-    <router-link to="/" class="flex items-center gap-4">
-      <img class="w-20 h-20" alt="Japanese logo" src="../assets/img/Japanese_icon_for_user_box.png" />
-      <p class="text-3xl font-bold text-white ml-0">Aprende Japonés</p>
+    class="relative bg-linear-to-r from-[#b3daff] to-[#edf3ff] w-full h-20 flex items-center justify-between px-4 rounded-2xl z-50">
+    
+    <router-link to="/" class="flex items-center gap-2 sm:gap-4 shrink-0">
+      <img class="w-12 h-12 sm:w-16 sm:h-16" alt="Japanese logo" src="../assets/img/Japanese_icon_for_user_box.png" />
+      <p class="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-none">Aprende Japonés</p>
     </router-link>
-  
 
-    <!-- checkbox hamburguesa -->
-    <input id="menu-toggle" type="checkbox" class="hidden" />
- 
-    <!-- icono hamburguesa visible solo en md:hidden -->
-    <label for="menu-toggle" class="md:hidden cursor-pointer p-2 ">
-      <svg class="w-6 h-6 ml-auto "  stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    <input id="menu-toggle" type="checkbox" class="hidden peer" />
+
+    <label for="menu-toggle" class="md:hidden cursor-pointer p-2 z-50">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path class="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </label>
     
-    <!-- nav escritorio -->
-    <nav class="hidden md:flex gap-3 items-center flex-1 justify-end">
-
-      <BotonBlanco v-if="tipo === 'principal'" @click="$router.push({ name: 'login' })">
-        Iniciar sesión
-      </BotonBlanco>
-
+    <nav class="hidden md:flex gap-3 items-center">
+      <BotonBlanco v-if="tipo === 'principal'" @click="$router.push({ name: 'login' })">Iniciar sesión</BotonBlanco>
       <BotonBlanco v-if="tipo === 'principal'" @click="$router.push({ name: 'register' })">Registrarse</BotonBlanco>
-
-      <BotonBlanco v-if="tipo === 'login'">
-        <i class="bi bi-house text-4xl cursor-pointer" @click="$router.push({ name: 'principal' })"></i>
-        <!-- Icono de casa vuelves a principal, mirar  router/index.ts, esta vinculado a homeView.vue  -->
-      </BotonBlanco>
-
-      <BotonBlanco v-if="tipo === 'game'" @click="$router.push({ name: 'principal' })">Volver</BotonBlanco>
-
-      <a @click="$router.push({ name: 'game' })" href="#" class="inline-block" aria-label="Perfil"
-        rel="noopener noreferrer">
-        <img src="../assets/img/mandoPNG.png" alt="User icon"
-          class="w-20 h-20 block cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95 rounded-md shadow"
-          loading="lazy" />
-      </a>
+      <router-link to="/game" class="hover:scale-105 transition-transform">
+        <img src="../assets/img/mandoPNG.png" alt="Jugar" class="w-16 h-16 rounded-md shadow" />
+      </router-link>
     </nav>
 
-    <!-- menú móvil controlado por checkbox -->
-    <div class="md:hidden mobile-menu-wrapper">
-      <div class="flex-1  justify-end bg-white border-t transform transition-transform duration-150
-                -translate-y-2 opacity-0 pointer-events-none" id="mobile-menu">
-        <router-link class="block px-4 py-3" to="/login"
-          @click="document.getElementById('menu-toggle').checked = false">Iniciar sesión</router-link>
-        <router-link class="block px-4 py-3" to="/register"
-          @click="document.getElementById('menu-toggle').checked = false">Registrarse</router-link>
-        <router-link class="block px-4 py-3" to="/juego"
-          @click="document.getElementById('menu-toggle').checked = false">Jugar</router-link>
-      </div>
+    <div id="mobile-menu" 
+         class="absolute top-full left-0 w-full bg-white/95 backdrop-blur-sm shadow-xl rounded-b-2xl py-4 flex flex-col items-center gap-4 
+                md:hidden transition-all duration-300 origin-top scale-y-0 opacity-0 pointer-events-none">
+      
+      <router-link class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/login" @click="closeMenu">Iniciar sesión</router-link>
+      <router-link class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/register" @click="closeMenu">Registrarse</router-link>
+      <router-link class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/game" @click="closeMenu">Jugar</router-link>
     </div>
 
   </header>
 </template>
 
+<script setup>
+import BotonBlanco from './botonBlanco.vue';
+
+defineProps({
+  tipo: { type: String, default: 'principal' }
+});
+
+const closeMenu = () => {
+  document.getElementById('menu-toggle').checked = false;
+};
+</script>
+
 <style scoped>
-/* Mostrar el menú móvil cuando el checkbox esté marcado */
-input#menu-toggle:checked~.mobile-menu-wrapper #mobile-menu {
-  transform: translateY(0) !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
+/*el menú baja con estilo */
+#menu-toggle:checked ~ #mobile-menu {
+  @apply scale-y-100 opacity-100 pointer-events-auto;
 }
 
-/* Asegurar que el menú queda encima */
-#mobile-menu {
-  z-index: 50;
+
+#menu-toggle:checked + label svg path {
+  d: path("M 6 18 L 18 6 M 6 6 L 18 18");
 }
 </style>

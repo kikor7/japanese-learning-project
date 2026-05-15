@@ -49,6 +49,18 @@ export class Start extends Phaser.Scene {
         // this.scene.start('GameBubbles');
         console.log("Iniciando aventura...");
     });
+    // Dentro del método create() de tu escena Start.js
+const fullScreenButton = this.add.text(1150, 680, 'Fullscreen', { 
+    fill: '#0f0' 
+}).setInteractive();
+
+fullScreenButton.on('pointerup', () => {
+    if (this.scale.isFullscreen) {
+        this.scale.stopFullscreen();
+    } else {
+        this.scale.startFullscreen();
+    }
+});
     }
 
     update() {
