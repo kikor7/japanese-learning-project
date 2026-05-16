@@ -4,6 +4,7 @@ import registerView from '@/views/RegisterView.vue'
 import GameView from '../views/GameView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 const routes = [
   { path: '/', name: 'principal', component: HomeView },
   { path: '/login', name: 'login', component: LoginView },

@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import petalosBackground from '@/components/petalosBackground.vue';
 import headerPagina from '@/components/headerPagina.vue';
 import footerPagina from '@/components/footerPagina.vue';
-
+import GameBubbles from './components/GameBubbles.vue';
 
 const route = useRoute()
 
