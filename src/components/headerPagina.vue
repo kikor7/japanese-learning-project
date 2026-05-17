@@ -17,7 +17,7 @@
     <nav class="hidden md:flex gap-3 items-center">
       <BotonBlanco v-if="$route.name !== 'login'" @click="$router.push({ name: 'login' })">Iniciar sesión</BotonBlanco>
       <BotonBlanco v-if="$route.name !== 'register'" @click="$router.push({ name: 'register' })">Registrarse</BotonBlanco>
-      <router-link to="/game" class="hover:scale-105 transition-transform">
+      <router-link v-if="$route.name !== 'game'" to="/game" class="hover:scale-105 transition-transform">
         <img src="../assets/img/mandoPNG.png" alt="Jugar" class="w-16 h-16 rounded-md shadow" />
       </router-link>
     </nav>
@@ -28,7 +28,7 @@
       
       <router-link v-if="$route.name !== 'login'" class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/login" @click="closeMenu">Iniciar sesión</router-link>
       <router-link v-if="$route.name !== 'register'" class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/register" @click="closeMenu">Registrarse</router-link>
-      <router-link class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/game" @click="closeMenu">Jugar</router-link>
+      <router-link v-if="$route.name !== 'game'" class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/game" @click="closeMenu">Jugar</router-link>
     </div>
 
   </header>
