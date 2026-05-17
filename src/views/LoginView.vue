@@ -1,6 +1,7 @@
 <template>
     <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+             
             <h1 class="text-center text-gray-800 text-2xl font-semibold mb-8">Login</h1>
             <form @submit.prevent="handleLogin">
                 <div class="mb-4">
@@ -18,15 +19,17 @@
             <p v-if="error" class="text-red-600 text-center mt-4">{{ error }}</p>
         </div>
     </div>
+    
 </template>
 
 <script>
 import BotonMoradoLoginRegister from '@/components/botonMoradoLoginRegister.vue';
-
+import headerPagina from '@/components/headerPagina.vue';
 export default {
     name: 'Login',
     components: {
-        BotonMoradoLoginRegister
+        BotonMoradoLoginRegister,
+        headerPagina
     },
     data() {
         return {

@@ -7,28 +7,27 @@
       <p class="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-none">Aprende Japonés</p>
     </router-link>
 
-    <input id="menu-toggle" type="checkbox" class="hidden peer" />
-
-    <label for="menu-toggle" class="md:hidden cursor-pointer p-2 z-50">
-      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path class="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    <button @click="menuAbierto = !menuAbierto" class="md:hidden cursor-pointer p-2 z-50 bg-transparent border-none">
+      <svg class="w-8 h-8 text-white transition-transform duration-300" :class="{ 'rotate-90': menuAbierto }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path v-if="!menuAbierto" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
-    </label>
+    </button>
     
     <nav class="hidden md:flex gap-3 items-center">
-      <BotonBlanco v-if="tipo === 'principal'" @click="$router.push({ name: 'login' })">Iniciar sesión</BotonBlanco>
-      <BotonBlanco v-if="tipo === 'principal'" @click="$router.push({ name: 'register' })">Registrarse</BotonBlanco>
+      <BotonBlanco v-if="$route.name !== 'login'" @click="$router.push({ name: 'login' })">Iniciar sesión</BotonBlanco>
+      <BotonBlanco v-if="$route.name !== 'register'" @click="$router.push({ name: 'register' })">Registrarse</BotonBlanco>
       <router-link to="/game" class="hover:scale-105 transition-transform">
         <img src="../assets/img/mandoPNG.png" alt="Jugar" class="w-16 h-16 rounded-md shadow" />
       </router-link>
     </nav>
 
     <div id="mobile-menu" 
-         class="absolute top-full left-0 w-full bg-white/95 backdrop-blur-sm shadow-xl rounded-b-2xl py-4 flex flex-col items-center gap-4 
-                md:hidden transition-all duration-300 origin-top scale-y-0 opacity-0 pointer-events-none">
+         class="absolute top-full left-0 w-full bg-white/95 backdrop-blur-sm shadow-xl rounded-b-2xl py-4 flex flex-col items-center gap-4 md:hidden transition-all duration-300 origin-top"
+         :class="menuAbierto ? 'scale-y-100 opacity-100 pointer-events-auto' : 'scale-y-0 opacity-0 pointer-events-none'">
       
-      <router-link class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/login" @click="closeMenu">Iniciar sesión</router-link>
-      <router-link class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/register" @click="closeMenu">Registrarse</router-link>
+      <router-link v-if="$route.name !== 'login'" class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/login" @click="closeMenu">Iniciar sesión</router-link>
+      <router-link v-if="$route.name !== 'register'" class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/register" @click="closeMenu">Registrarse</router-link>
       <router-link class="text-lg font-semibold text-blue-500 py-2 w-full text-center hover:bg-blue-50" to="/game" @click="closeMenu">Jugar</router-link>
     </div>
 
@@ -36,25 +35,18 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import BotonBlanco from './botonBlanco.vue';
 
+// Eliminamos defineProps si vas a usar la lógica inteligente de $route en vez de 'tipo'
 defineProps({
   tipo: { type: String, default: 'principal' }
 });
 
+// Variable reactiva para controlar el estado del menú
+const menuAbierto = ref(false);
+
 const closeMenu = () => {
-  document.getElementById('menu-toggle').checked = false;
+  menuAbierto.value = false; // Manera limpia de cerrar en Vue
 };
 </script>
-
-<style scoped>
-/*el menú baja con estilo */
-#menu-toggle:checked ~ #mobile-menu {
-  @apply scale-y-100 opacity-100 pointer-events-auto;
-}
-
-
-#menu-toggle:checked + label svg path {
-  d: path("M 6 18 L 18 6 M 6 6 L 18 18");
-}
-</style>
