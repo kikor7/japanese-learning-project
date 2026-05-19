@@ -41,13 +41,6 @@ onMounted(() => {
   <headerPagina :tipo="selectorTipo"/>
   
   <main class="bg-white">
-    <div class="p-4">
-      <h2 class="text-xl font-bold mb-2">Lista de Instrumentos:</h2>
-      <ul>
-        <li v-for="instrument in instruments" :key="instrument.id" class="text-black">
-          {{ instrument.name }} </li>
-      </ul>
-    </div>
 
     <router-view />
   </main>
