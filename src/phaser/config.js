@@ -18,7 +18,8 @@ export function iniciarJuego() {
             default: 'arcade',
             arcade: {
                 gravity: { y: 800 },
-                fixedStep: true // Evita tirones en el arranque
+                fixedStep: true, // Evita tirones en el arranque
+                debug: true
             }
         },
         scene: [Start, GameBubblesScene] // Aquí metes tus escenas. Si tienes más (como Preload, Game, etc.), las añades al array
