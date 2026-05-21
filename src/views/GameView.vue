@@ -32,10 +32,12 @@
 
 
     <!-- El texto inferior se mantiene fuera del cuadro del juego -->
-    <p class="mt-4 text-gray-500 italic font-medium text-center">
-      ¡Revienta las burbujas y forma palabras!
+    <p class="hidden md:flexmt-4 text-gray-500 italic font-medium text-center">
+      ¡Revienta las burbujas,forma palabras y lanza bolas de fuego con click o SPACE!
     </p>
-
+<p class="block md:hidden mt-4 text-gray-500 italic font-medium text-center">
+      ¡Revienta las burbujas, forma palabras y lanza bolas de fuego con los controles táctiles!
+    </p>
   </div>
 </template>
 
