@@ -2,10 +2,8 @@ import Phaser from 'phaser'
 
 class Bullet extends Phaser.GameObjects.Sprite {
   constructor(scene) {
-    // 1. CORREGIDO: Usamos la clave unificada 'fuego_balas'
     super(scene, 0, 0, 'fuego_balas')
     this.setOrigin(0.5)
-
     this.setScale(5)
   }
 
@@ -19,7 +17,7 @@ class Bullet extends Phaser.GameObjects.Sprite {
 
     if (this.body) {
       this.body.reset(x, y)
-      this.body.velocity.y = -500 
+      this.body.velocity.y = -500
     }
   }
 
@@ -28,13 +26,13 @@ class Bullet extends Phaser.GameObjects.Sprite {
       this.setActive(false)
       this.setVisible(false)
       if (this.body) {
-        this.body.stop() 
+        this.body.stop()
       }
     }
   }
 }
 
-var balas;
+var balas
 
 export default class GameBubbbles extends Phaser.Scene {
   constructor() {
@@ -51,8 +49,7 @@ export default class GameBubbbles extends Phaser.Scene {
     this.load.image('jugadorDeLado', './assets/setaJugadoraDeLado.png')
     this.load.audio('bgm', './assets/audio/Yuuyake_no_Beach.mp3')
     this.load.audio('laserSonido', './assets/audio/8-bit-laser.wav')
-    
-    // 2. CORREGIDO: Nombre unificado a 'fuego_balas'
+
     this.load.spritesheet('fuego_balas', './assets/fuego_balas.png', {
       frameWidth: 16,
       frameHeight: 16,
@@ -78,21 +75,19 @@ export default class GameBubbbles extends Phaser.Scene {
     this.physics.add.existing(this.suelo, true)
 
     this.jugador = this.physics.add.sprite(100, 600, 'jugador').setScale(0.17)
-    this.jugador.setOrigin(0.5, 1) 
+    this.jugador.setOrigin(0.5, 1)
     this.jugador.setCollideWorldBounds(true)
 
     this.burbujas = this.physics.add.group()
 
     balas = this.physics.add.group({
       classType: Bullet,
-      maxSize: 20,           
-      runChildUpdate: true   
+      maxSize: 20,
+      runChildUpdate: true,
     })
-    
-    balas.defaults.setAllowGravity = false;
 
-    // 3. CORREGIDO: Eliminado el createMultiple redundante. 
-    // El bucle for ya crea e inicializa las balas gracias al get()
+    balas.defaults.setAllowGravity = false
+
     for (let i = 0; i < 20; i++) {
       let unaBala = balas.get()
       if (unaBala) {
@@ -111,8 +106,7 @@ export default class GameBubbbles extends Phaser.Scene {
     this.physics.add.collider(this.jugador, this.suelo)
     this.physics.add.collider(this.burbujas, this.suelo, this.burbujaChocaSuelo, null, this)
     this.physics.add.overlap(this.jugador, this.burbujas, this.recolectarBurbuja, null, this)
-    
-    // 4. NUEVO: Añadimos la colisión entre las balas y las burbujas
+
     this.physics.add.overlap(balas, this.burbujas, this.balaChocaBurbuja, null, this)
 
     this.cursors = this.input.keyboard.createCursorKeys()
@@ -133,15 +127,15 @@ export default class GameBubbbles extends Phaser.Scene {
       repeat: -1,
       ease: 'Sine.easeInOut',
     })
-    
+
     this.anims.create({
       key: 'bola_fuego_vuelo',
       frames: this.anims.generateFrameNumbers('fuego_balas', { start: 220, end: 221 }),
-      frameRate: 10, 
-      repeat: -1     
-    });
+      frameRate: 10,
+      repeat: -1,
+    })
     this.laserSonido = this.sound.add('laserSonido', { volume: 0.2 })
-    
+
     this.score = 0
     this.palabraActual = ''
     this.gameOver = false
@@ -202,17 +196,144 @@ export default class GameBubbbles extends Phaser.Scene {
         this.scale.startFullscreen()
       }
     })
-    // ESCUCHADOR DE RATÓN (Se declara aquí una sola vez y funciona para siempre)
-    this.input.on('pointerdown', (pointer) => {
-      // Si el juego ha terminado, no dispares
-      if (this.gameOver) return;
 
-      // Dispara solo con el clic izquierdo (botón 0)
-      if (pointer.button === 0) {
+    // ========================================================
+    // GESTIÓN DE ENTRADAS FILTRADAS (PC vs MÓVIL)
+    // ========================================================
+    this.táctilIzq = false
+    this.táctilDer = false
+    this.táctilSaltar = false
+
+    if (!this.isMobile()) {
+      // ESCUCHADOR DE RATÓN/CLIC (SOLO EN PC)
+      this.input.on('pointerdown', (pointer) => {
+        if (this.gameOver) return
+        if (pointer.button === 0) {
+          this.dispararProyectil(this.jugador.x, this.jugador.y - 50)
+          this.laserSonido.play()
+        }
+      })
+    } else {
+      // CONTROLES TÁCTILES PRO (SOLO EN MÓVIL)
+      this.input.addPointer(3)
+      const colorRosaPro = 0xff8da1
+
+      // 1. Botón Mover Izquierda (Abajo a la izquierda)
+      const graphicsIzq = this.add.graphics()
+      graphicsIzq.fillStyle(colorRosaPro, 1)
+      graphicsIzq.fillRoundedRect(0, 0, 100, 100, 25)
+      const textIzq = this.add
+        .text(50, 50, '◀', { fontSize: '40px', fill: '#ffffff' })
+        .setOrigin(0.5)
+
+      const btnIzq = this.add
+        .container(40, 560, [graphicsIzq, textIzq])
+        .setSize(100, 100)
+        .setInteractive()
+        .setAlpha(0.4)
+
+      btnIzq.on('pointerdown', () => {
+        this.táctilIzq = true
+        btnIzq.setAlpha(0.8)
+      })
+      btnIzq.on('pointerup', () => {
+        this.táctilIzq = false
+        btnIzq.setAlpha(0.4)
+      })
+      btnIzq.on('pointerout', () => {
+        this.táctilIzq = false
+        btnIzq.setAlpha(0.4)
+      })
+
+      // 2. Botón Mover Derecha (Abajo a la derecha, dejando espacio en medio)
+      const graphicsDer = this.add.graphics()
+      graphicsDer.fillStyle(colorRosaPro, 1)
+      graphicsDer.fillRoundedRect(0, 0, 100, 100, 25)
+      const textDer = this.add
+        .text(50, 50, '▶', { fontSize: '40px', fill: '#ffffff' })
+        .setOrigin(0.5)
+
+      const btnDer = this.add
+        .container(260, 560, [graphicsDer, textDer])
+        .setSize(100, 100)
+        .setInteractive()
+        .setAlpha(0.4)
+
+      btnDer.on('pointerdown', () => {
+        this.táctilDer = true
+        btnDer.setAlpha(0.8)
+      })
+      btnDer.on('pointerup', () => {
+        this.táctilDer = false
+        btnDer.setAlpha(0.4)
+      })
+      btnDer.on('pointerout', () => {
+        this.táctilDer = false
+        btnDer.setAlpha(0.4)
+      })
+
+      // 3. Botón Saltar (ENCIMA de los dos, centrado perfectamente a mitad de camino)
+      // Centrado en X: (40 + 260) / 2 = 150. Elevado en Y a 440 (120px más arriba)
+      const graphicsSaltar = this.add.graphics()
+      graphicsSaltar.fillStyle(colorRosaPro, 1)
+      graphicsSaltar.fillRoundedRect(0, 0, 100, 100, 25)
+      const textSaltar = this.add
+        .text(50, 50, '▲', { fontSize: '40px', fill: '#ffffff' })
+        .setOrigin(0.5)
+
+      const btnSaltar = this.add
+        .container(150, 440, [graphicsSaltar, textSaltar])
+        .setSize(100, 100)
+        .setInteractive()
+        .setAlpha(0.4)
+
+      btnSaltar.on('pointerdown', () => {
+        this.táctilSaltar = true
+        btnSaltar.setAlpha(0.8)
+      })
+      btnSaltar.on('pointerup', () => {
+        this.táctilSaltar = false
+        btnSaltar.setAlpha(0.4)
+      })
+      btnSaltar.on('pointerout', () => {
+        this.táctilSaltar = false
+        btnSaltar.setAlpha(0.4)
+      })
+
+      // 4. Botón de Disparo (Círculo Rosita con la X en el lado derecho)
+      const radioCirculo = 60
+      const graphicsDisp = this.add.graphics()
+      graphicsDisp.fillStyle(colorRosaPro, 1)
+      graphicsDisp.fillCircle(radioCirculo, radioCirculo, radioCirculo)
+
+      const textDisp = this.add
+        .text(radioCirculo, radioCirculo, 'X', {
+          fontSize: '55px',
+          fill: '#ffffff',
+          fontFamily: 'Arial',
+          fontStyle: 'bold',
+        })
+        .setOrigin(0.5)
+
+      const btnDisp = this.add
+        .container(1100, 540, [graphicsDisp, textDisp])
+        .setSize(radioCirculo * 2, radioCirculo * 2)
+        .setInteractive()
+        .setAlpha(0.4)
+
+      btnDisp.on('pointerdown', () => {
+        if (this.gameOver) return
         this.dispararProyectil(this.jugador.x, this.jugador.y - 50)
         this.laserSonido.play()
-      }
-    });
+        btnDisp.setAlpha(0.8)
+      })
+      btnDisp.on('pointerup', () => {
+        btnDisp.setAlpha(0.4)
+      })
+      btnDisp.on('pointerout', () => {
+        btnDisp.setAlpha(0.4)
+      })
+    }
   }
 
   update() {
@@ -223,12 +344,12 @@ export default class GameBubbbles extends Phaser.Scene {
 
     if (this.gameOver) return
 
-if (Phaser.Input.Keyboard.JustDown(this.wasd.space) || this.input.manager.activePointer.justDown) {
-          this.dispararProyectil(this.jugador.x, this.jugador.y - 50)
+    if (Phaser.Input.Keyboard.JustDown(this.wasd.space)) {
+      this.dispararProyectil(this.jugador.x, this.jugador.y - 50)
       this.laserSonido.play()
     }
 
-    const quiereSaltar = this.cursors.up.isDown || this.wasd.up.isDown
+    const quiereSaltar = this.cursors.up.isDown || this.wasd.up.isDown || this.táctilSaltar
     const estaEnElSuelo = this.jugador.body.touching.down
 
     const limiteIzquierdo = 50
@@ -238,7 +359,7 @@ if (Phaser.Input.Keyboard.JustDown(this.wasd.space) || this.input.manager.active
     const anchoOriginal = this.jugador.width
     const altoOriginal = this.jugador.height
 
-    if (this.cursors.left.isDown || this.wasd.left.isDown) {
+    if (this.cursors.left.isDown || this.wasd.left.isDown || this.táctilIzq) {
       this.jugador.setVelocityX(-500)
       this.jugador.setFlipX(true)
 
@@ -248,7 +369,7 @@ if (Phaser.Input.Keyboard.JustDown(this.wasd.space) || this.input.manager.active
         this.jugador.setBodySize(anchoOriginal * 0.8, altoOriginal * 0.8)
         this.jugador.body.setOffset((anchoOriginal * 0.2) / 2, altoOriginal * 0.2)
       }
-    } else if (this.cursors.right.isDown || this.wasd.right.isDown) {
+    } else if (this.cursors.right.isDown || this.wasd.right.isDown || this.táctilDer) {
       this.jugador.setVelocityX(500)
       this.jugador.setFlipX(false)
 
@@ -283,6 +404,7 @@ if (Phaser.Input.Keyboard.JustDown(this.wasd.space) || this.input.manager.active
 
     if (quiereSaltar && estaEnElSuelo) {
       this.jugador.setVelocityY(-450)
+      this.táctilSaltar = false
 
       if (this.jugador.texture.key !== 'jugadorDeLado' || this.jugador.scaleY < 0.15) {
         this.jugador.setTexture('jugadorDeLado')
@@ -314,28 +436,23 @@ if (Phaser.Input.Keyboard.JustDown(this.wasd.space) || this.input.manager.active
     }
   }
 
-// esta funcion de balaChocaBurbuja lo unico que hace es BORRAR, la deteccion de si bala toca burbuja ya el motor lo detecta con collider/overlap
   balaChocaBurbuja(bala, burbuja) {
     if (!bala.active || !burbuja.active) return
 
-    // Apagamos la bala para el pool de objetos
     bala.setActive(false)
     bala.setVisible(false)
     if (bala.body) bala.body.stop()
 
     this.reproducirSonidoBurbuja()
-
     this.procesarAciertoBurbuja(burbuja)
   }
 
- 
   recolectarBurbuja(jugador, burbuja) {
-    if (this.gameOver) return 
+    if (this.gameOver) return
     if (burbuja.yaRecogida) return
     burbuja.yaRecogida = true
     this.reproducirSonidoBurbuja()
 
-    // Le pasamos la burbuja al mismo encargado
     this.procesarAciertoBurbuja(burbuja)
   }
 
@@ -346,7 +463,6 @@ if (Phaser.Input.Keyboard.JustDown(this.wasd.space) || this.input.manager.active
     let letraCorrecta = this.fraseObjetivo[this.indiceLetraActual].trim().toUpperCase()
 
     if (letraTocada === letraCorrecta) {
-      // Toda tu lógica intacta de sumar puntos
       this.score += 100
       this.palabraActual += letraCorrecta
       this.indiceLetraActual++
@@ -357,20 +473,19 @@ if (Phaser.Input.Keyboard.JustDown(this.wasd.space) || this.input.manager.active
         this.fraseObjetivo = this.diccionario[nuevoIndice]
         this.indiceLetraActual = 0
         this.palabraActual = ''
-      } 
+      }
 
       this.scoreText.setText('Puntuación: ' + this.score)
       this.palabraFormadaText.setText('Progreso: ' + this.palabraActual)
-      this.palabraText.setText('Objetivo: ' + this.fraseObjetivo) 
+      this.palabraText.setText('Objetivo: ' + this.fraseObjetivo)
 
       if (this.emitterPompas) {
         this.emitterPompas.explode(Phaser.Math.Between(6, 10), burbuja.x, burbuja.y)
-      } 
+      }
 
       burbuja.textoAsociado.destroy()
       burbuja.destroy()
     } else {
-      // Si falla la letra, llamamos al Game Over
       this.ejecutarGameOver()
     }
   }
@@ -378,12 +493,12 @@ if (Phaser.Input.Keyboard.JustDown(this.wasd.space) || this.input.manager.active
   ejecutarGameOver() {
     this.reproducirSonidoPerder()
     this.gameOver = true
-    this.physics.pause() 
-    this.time.removeAllEvents() 
-    this.bgm.stop() 
+    this.physics.pause()
+    this.time.removeAllEvents()
+    this.bgm.stop()
 
-    this.jugador.setTint(0xff0000) 
-    if (this.efectoRespiracion) this.efectoRespiracion.stop() 
+    this.jugador.setTint(0xff0000)
+    if (this.efectoRespiracion) this.efectoRespiracion.stop()
 
     this.add
       .text(640, 360, '¡PERDISTE!\nPresiona ESC para volver', {
@@ -399,7 +514,7 @@ if (Phaser.Input.Keyboard.JustDown(this.wasd.space) || this.input.manager.active
   }
 
   lanzarBurbuja() {
-    if (this.gameOver) return 
+    if (this.gameOver) return
 
     let xAleatoria = Phaser.Math.Between(50, 1230)
     let nuevaBurbuja = this.burbujas.create(xAleatoria, 0, 'burbuja')
@@ -593,7 +708,7 @@ const crearBotónCute = (escena, x, y, ancho, alto, texto, tamañoTexto) => {
     elementoCentral = escena.add
       .text(0, 0, texto, {
         fontFamily: 'Comic Sans MS, cursive',
-        fontSize: tamañoTexto,
+        fontSize: tamañoTexto || '24px',
         fill: '#ffffff',
         stroke: '#2c1d22',
         strokeThickness: 6,
