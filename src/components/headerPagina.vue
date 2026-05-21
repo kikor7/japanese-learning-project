@@ -1,6 +1,6 @@
 <template>
-  <header
-    class="relative bg-linear-to-r from-[#b3daff] to-[#edf3ff] w-full h-20 flex items-center justify-between px-4 rounded-2xl z-50">
+  <header 
+    class=" landscape:pointer-coarse:hidden relative bg-linear-to-r from-[#b3daff] to-[#edf3ff] w-full h-20 flex items-center justify-between px-4 rounded-2xl z-50">
     
     <router-link to="/" class="flex items-center gap-2 sm:gap-4 shrink-0">
       <img class="w-12 h-12 sm:w-16 sm:h-16" alt="Japanese logo" src="../assets/img/Japanese_icon_for_user_box.png" />
@@ -112,3 +112,4 @@ onMounted(() => {
   });
 });
 </script>
+

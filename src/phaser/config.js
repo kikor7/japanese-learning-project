@@ -11,8 +11,8 @@ export function iniciarJuego() {
         height: 720,   
         parent: 'game-container', // Este ID tiene que coincidir con el DIV de tu GameBubbles.vue
       scale: {
-            mode: Phaser.Scale.NONE,          // <-- LE DICE A PHASER: "No toques el CSS del canvas"
-            autoCenter: Phaser.Scale.NO_CENTER // <-- Deja que Tailwind lo centre todo
+            mode: Phaser.Scale.FIT,         
+            autoCenter: Phaser.Scale.NO_CENTER // 
         },
         physics: {
             default: 'arcade',
