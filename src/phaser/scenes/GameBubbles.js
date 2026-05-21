@@ -229,8 +229,8 @@ export default class GameBubbbles extends Phaser.Scene {
       const btnIzq = this.add
         .container(40, 560, [graphicsIzq, textIzq])
         .setSize(100, 100)
-        .setInteractive()
-        .setAlpha(0.4)
+       .setInteractive(new Phaser.Geom.Rectangle(0, 0, 300, 400), Phaser.Geom.Rectangle.Contains)
+  .setAlpha(0.4)
 
       btnIzq.on('pointerdown', () => {
         this.táctilIzq = true
@@ -256,8 +256,8 @@ export default class GameBubbbles extends Phaser.Scene {
       const btnDer = this.add
         .container(260, 560, [graphicsDer, textDer])
         .setSize(100, 100)
-        .setInteractive()
-        .setAlpha(0.4)
+        .setInteractive(new Phaser.Geom.Rectangle(0, 0, 300, 300), Phaser.Geom.Rectangle.Contains)
+  .setAlpha(0.4)
 
       btnDer.on('pointerdown', () => {
         this.táctilDer = true
@@ -284,8 +284,8 @@ export default class GameBubbbles extends Phaser.Scene {
       const btnSaltar = this.add
         .container(150, 440, [graphicsSaltar, textSaltar])
         .setSize(100, 100)
-        .setInteractive()
-        .setAlpha(0.4)
+        .setInteractive(new Phaser.Geom.Rectangle(0, 0, 100, 200), Phaser.Geom.Rectangle.Contains)
+  .setAlpha(0.4)
 
       btnSaltar.on('pointerdown', () => {
         this.táctilSaltar = true
@@ -318,8 +318,8 @@ export default class GameBubbbles extends Phaser.Scene {
       const btnDisp = this.add
         .container(1100, 540, [graphicsDisp, textDisp])
         .setSize(radioCirculo * 2, radioCirculo * 2)
-        .setInteractive()
-        .setAlpha(0.4)
+         .setInteractive(new Phaser.Geom.Rectangle(0, 0, 400, 350), Phaser.Geom.Rectangle.Contains)
+  .setAlpha(0.4)
 
       btnDisp.on('pointerdown', () => {
         if (this.gameOver) return
