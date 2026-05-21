@@ -44,6 +44,7 @@
 import GameBubbles from '../components/GameBubbles.vue'
 import { ref, onMounted, onUnmounted } from 'vue';
 
+let game = null;
 const isMobile = ref(false);
 const isLandscape = ref(false);
 
@@ -52,7 +53,12 @@ const checkOrientation = () => {
 };
 
 onMounted(() => {
+  if (game) {
+    game.destroy(true); // El 'true' elimina el canvas del DOM automáticamente
+    game = null;
+  }
   checkOrientation();
+  
 
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
   if (/android|iPad|iPhone|iPod/i.test(userAgent) || ('ontouchstart' in window)) {
