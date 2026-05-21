@@ -500,8 +500,14 @@ export default class GameBubbbles extends Phaser.Scene {
     this.jugador.setTint(0xff0000)
     if (this.efectoRespiracion) this.efectoRespiracion.stop()
 
-    this.add
-      .text(640, 360, '¡PERDISTE!\nPresiona ESC para volver', {
+    // 1. Cambia la frase exclusivamente si es móvil
+    const mensajeGameOver = this.isMobile() 
+      ? '¡PERDISTE!\nPresiona AQUÍ para volver' 
+      : '¡PERDISTE!\nPresiona ESC o AQUÍ para volver';
+
+    // 2. Creamos el texto en pantalla
+    const textoPerder = this.add
+      .text(640, 360, mensajeGameOver, {
         fontSize: '64px',
         fill: '#ff0000',
         fontFamily: 'Arial',
@@ -511,6 +517,23 @@ export default class GameBubbbles extends Phaser.Scene {
         fontWeight: 'bold',
       })
       .setOrigin(0.5)
+
+    // 3. Añadimos la animación de latido a ambos (queda genial tanto con ratón como en táctil)
+    this.tweens.add({
+      targets: textoPerder,
+      scale: 1.1,
+      duration: 800,
+      yoyo: true,
+      repeat: -1
+    });
+
+    // 4. Hacemos que sea interactivo ("clicable" con ratón o "pulsable" con el dedo)
+    textoPerder.setInteractive() 
+
+    textoPerder.on('pointerdown', () => {
+      this.scene.start('Start')
+      this.bgm.stop() 
+    })
   }
 
   lanzarBurbuja() {

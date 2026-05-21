@@ -1,8 +1,7 @@
 <template>
-  <!-- Contenedor principal de la vista (Mantiene el flujo limpio para Header y Footer) -->
   <div class="relative flex flex-col items-center justify-center min-h-[calc(80vh-80px)] p-6">
 
-    <!-- CONTENEDOR DEL JUEGO: Aquí aplicamos el zoom out en horizontal y confinamos el bloqueo -->
+    <!--  se aplica zoom out en horizontal -->
     <div
       class="w-full max-w-[960px] shadow-2xl rounded-2xl overflow-hidden border-4 border-white/20 bg-black relative z-0
                 landscape:pointer-coarse:scale-75 landscape:pointer-coarse:origin-top transition-transform duration-300">
@@ -32,10 +31,10 @@
 
 
     <!-- El texto inferior se mantiene fuera del cuadro del juego -->
-    <p class="hidden md:flexmt-4 text-gray-500 italic font-medium text-center">
-      ¡Revienta las burbujas,forma palabras y lanza bolas de fuego con click o SPACE!
+    <p class="pointer-coarse:hidden mt-4 text-gray-500 italic font-medium text-center">
+      ¡Revienta las burbujas, forma palabras y lanza bolas de fuego con CLICK o SPACE!
     </p>
-<p class="block md:hidden mt-4 text-gray-500 italic font-medium text-center">
+<p class="pointer-coarse:portrait:flex hidden mt-4 text-gray-500 italic font-medium text-center">
       ¡Revienta las burbujas, forma palabras y lanza bolas de fuego con los controles táctiles!
     </p>
   </div>
