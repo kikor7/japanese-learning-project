@@ -16,7 +16,7 @@
       "destination": "https://gnews.io/api/v4/:path*"
     },
     {
-      "source": "/:path*",
+      "source": "/((?!api|@|src|node_modules|.*\\.).*)",
       "destination": "/index.html"
     }
   ]
